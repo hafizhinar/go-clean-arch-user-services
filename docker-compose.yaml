@@ -1,0 +1,48 @@
+version: "2.3"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: user_services_api
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgesql
+      - mysql
+    volumes:
+      - ./config.json:/app/config.json
+    
+  postgesql:
+    image: postgres:12-alpine
+    container_name: api_postgesql
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=event
+    volumes:
+      - /var/lib/postgresql/data
+
+  mysql:
+    image: mysql:latest
+    container_name: api_mysql
+    command: mysqld --user=root
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: event
+    container_name: event-db
+    ports:
+      - 3307:3306
+    restart: always
+    volumes:
+      - var/lib/mysql 
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+

@@ -1,0 +1,28 @@
+{
+    "debug": true,
+    "server": {
+      "address": ":5000"
+    },
+    "context":{
+      "timeout":2
+    },
+    "database": {
+        "postgesql": {
+            "host": "postgres",
+            "port": "5432",
+            "user": "postgres",
+            "pass": "postgres",
+            "name": "event"
+        },
+        "mysql": {
+            "host": "mysql",
+            "port": "3307",
+            "user": "user",
+            "pass": "root",
+            "name": "event"
+        }
+
+    }
+  
+  }
+  
